@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Настройки прокси
-PORT="3333"
+PORT="7273"
 PUBKEY="your-pubkey-here"
 NAME="gm-proxy"
 SCREEN_NAME="gm-p"
-LOG_DIR="/var/log/golden-miner"
+LOG_DIR="./log/"
 LOG_FILE="${LOG_DIR}/proxy.log"
 BINARY_PATH="/TEST/nock/golden-miner-pool-proxy"
 
