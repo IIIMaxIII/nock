@@ -3,9 +3,9 @@
 # Настройки прокси
 PORT="7273"
 PUBKEY="your-pubkey-here"
-NAME="gm-proxy"
+NAME="gm-home"
 SCREEN_NAME="gm-p"
-LOG_DIR="./log/"
+LOG_DIR="/TEST/nock/log/"
 LOG_FILE="${LOG_DIR}/proxy.log"
 BINARY_PATH="/TEST/nock/golden-miner-pool-proxy"
 
