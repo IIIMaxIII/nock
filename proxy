@@ -1,0 +1,152 @@
+#!/bin/bash
+
+# Настройки прокси
+PORT="3333"
+PUBKEY="your-pubkey-here"
+NAME="gm-proxy"
+SCREEN_NAME="gm-p"
+LOG_DIR="/var/log/golden-miner"
+LOG_FILE="${LOG_DIR}/proxy.log"
+BINARY_PATH="/TEST/nock/golden-miner-pool-proxy"
+
+# Создаем директорию для логов если не существует
+mkdir -p "$LOG_DIR"
+
+# Функция проверки запущен ли уже proxy
+is_running() {
+    screen -list | grep -q "$SCREEN_NAME"
+    return $?
+}
+
+# Функция запуска proxy
+start_proxy() {
+    if is_running; then
+        echo "Proxy уже запущен в screen '$SCREEN_NAME'"
+        return 1
+    fi
+    
+    # Проверяем существует ли бинарник
+    if [ ! -f "$BINARY_PATH" ]; then
+        echo "Ошибка: бинарник не найден: $BINARY_PATH"
+        return 1
+    fi
+    
+    echo "Запуск proxy в screen '$SCREEN_NAME'..."
+    cd "/TEST/nock" && screen -dmS "$SCREEN_NAME" -L -Logfile "$LOG_FILE" \
+        "$BINARY_PATH" --port="$PORT" --pubkey="$PUBKEY" --name="$NAME"
+    
+    sleep 2
+    
+    if is_running; then
+        echo "✓ Proxy успешно запущен"
+        echo "Логи: $LOG_FILE"
+        echo "Для подключения к screen: screen -r $SCREEN_NAME"
+        echo "Для отключения от screen: Ctrl+A, D"
+    else
+        echo "✗ Ошибка: не удалось запустить proxy"
+        return 1
+    fi
+}
+
+# Функция остановки proxy
+stop_proxy() {
+    if ! is_running; then
+        echo "Proxy не запущен"
+        return 1
+    fi
+    
+    echo "Остановка proxy..."
+    screen -S "$SCREEN_NAME" -X quit
+    
+    sleep 2
+    
+    if ! is_running; then
+        echo "✓ Proxy успешно остановлен"
+    else
+        echo "✗ Ошибка: не удалось остановить proxy"
+        return 1
+    fi
+}
+
+# Функция перезапуска proxy
+restart_proxy() {
+    stop_proxy
+    sleep 3
+    start_proxy
+}
+
+# Функция статуса
+status_proxy() {
+    if is_running; then
+        echo "✓ Proxy запущен в screen '$SCREEN_NAME'"
+        echo "Логи: $LOG_FILE"
+        echo "Для просмотра логов: tail -f $LOG_FILE"
+        echo "Для подключения: screen -r $SCREEN_NAME"
+    else
+        echo "✗ Proxy не запущен"
+    fi
+}
+
+# Функция просмотра логов
+tail_logs() {
+    if [ ! -f "$LOG_FILE" ]; then
+        echo "Лог файл не найден: $LOG_FILE"
+        return 1
+    fi
+    
+    tail -f "$LOG_FILE"
+}
+
+# Функция подключения к screen
+attach_screen() {
+    if is_running; then
+        echo "Подключение к screen '$SCREEN_NAME'..."
+        echo "Для отключения: Ctrl+A, D"
+        screen -r "$SCREEN_NAME"
+    else
+        echo "Proxy не запущен"
+        return 1
+    fi
+}
+
+# Сокращенные команды
+case "$1" in
+    start|s)
+        start_proxy
+        ;;
+    stop|x|e)
+        stop_proxy
+        ;;
+    restart|r)
+        restart_proxy
+        ;;
+    status|i)
+        status_proxy
+        ;;
+    logs|l)
+        tail_logs
+        ;;
+    attach|a)
+        attach_screen
+        ;;
+    *)
+        echo "Использование: $0 {start(s)|stop(x)|restart(r)|status(i)|logs(l)|attach(a)}"
+        echo ""
+        echo "Команды:"
+        echo "  start(s)   - запустить proxy"
+        echo "  stop(x)    - остановить proxy"
+        echo "  restart(r) - перезапустить proxy"
+        echo "  status(i)  - показать статус"
+        echo "  logs(l)    - просмотр логов в реальном времени"
+        echo "  attach(a)  - подключиться к screen сессии"
+        echo ""
+        echo "Текущие настройки:"
+        echo "  PORT: $PORT"
+        echo "  PUBKEY: $PUBKEY"
+        echo "  NAME: $NAME"
+        echo "  SCREEN_NAME: $SCREEN_NAME"
+        echo "  LOG_FILE: $LOG_FILE"
+        echo "  BINARY_PATH: $BINARY_PATH"
+        exit 1
+        ;;
+esac
