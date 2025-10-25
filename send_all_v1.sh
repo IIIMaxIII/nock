@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # Конфиг
-LOCAL_PK="2c9rAQWHo1GzAnFkHT5jDzcenEnidxG7G7akmuWHUk54op9GaUzeyvMXEtP2TTzgYzbZcypEnAfVnLjexmSP4HzAphnX6kbWPGYg1awKeG6E3NV8C7bQmen6a28mxmtEPN4G"
-RECIPIENT_PK="3WYJJDBU2YTyYco84JH3RbF5aAKEAdNZMkKnKXtsJMxsLcSqHTyBXgXXDiHsiVsKvJCcx2SAbbiG3gaZZxHLrAxdkW5CCjQWvKNpzraY75SikKiJdU2qs6SkvvjXSvW6utT6"
-FEE=111
+LOCAL_PK=""
+RECIPIENT_PK=""
+FEE=11
 SEP="-------------------------------------------------------------------------------------------------------------------------------------------------"
 
 pause() {
