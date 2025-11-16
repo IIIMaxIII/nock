@@ -1,13 +1,28 @@
-==========================================
-        NOCKMINER LAUNCH PARAMETERS
-==========================================
---pubkey <PUBKEY>          Your public key for miner identification (REQUIRED)
---gpu <gpu numbers>        Which GPUs to use while mining (comma separated)
---proxy <PROXY>            Socket of proxy. eg: '10.0.0.1:9999'
---name <NAME>              A human-readable identifier for this machine
---label <LABEL>            Marks which group/cluster this machine belongs to
---local-ip <LOCAL_IP>      Your machine's LAN IP
---region <region>          Optional region selector: [eu, us, asia]
+# Launch Parameters
 
---threads-per-card <N>     Number of CPU threads to allocate per GPU card
---ts <CPU_CORES>           CPU affinity mask (taskset)
+## Required
+- `--pubkey <PUBKEY>` - Your public key
+
+## GPU
+- `--gpu <numbers>` - GPU selection (comma separated: 0,1,3)
+
+## Network
+- `--proxy <PROXY>` - Proxy socket (10.0.0.1:9999)
+- `--local-ip <IP>` - Machine LAN IP
+- `--region <region>` - Region: eu/us/asia
+
+## Identification
+- `--name <NAME>` - Machine identifier
+- `--label <LABEL>` - Cluster/group label
+
+## Performance
+- `--threads-per-card <N>` - CPU threads per GPU
+- `--ts <CPU_CORES>` - CPU affinity mask
+
+## Other
+- `-h, --help` - Show help
+
+## Examples
+```bash
+./nockminer --pubkey 0x123... --gpu 0,1 --proxy 10.0.0.1:9999
+./nockminer --pubkey 0x123... --gpu 0-2 --name "Rig1" --region eu
