@@ -4,8 +4,7 @@
 - `--pubkey <PUBKEY>` - Your public key
 
 ## GPU
-- `
-- --gpu|--g|-g|--devices|--d|-d <numbers>` - GPU selection (comma separated: 0,1,3)
+- `--gpu|--g|-g|--devices|--d|-d <numbers>` - GPU selection (comma separated: 0,1,3)
 
 ## Network
 - `--proxy <PROXY>` - Proxy socket (10.0.0.1:9999)
