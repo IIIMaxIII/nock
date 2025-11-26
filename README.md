@@ -12,7 +12,7 @@
 - `--region <region>` - Region: eu/us/asia
 
 ## Identification
-- `--name <NAME>` - Machine identifier
+- `--name <NAME>` - Machine identifier. Default: the host's hostname
 - `--label <LABEL>` - Cluster/group label
 
 ## Performance
