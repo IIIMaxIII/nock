@@ -26,3 +26,6 @@
 ```bash
 ./nockminer --pubkey 0x123... --gpu 0,1 --proxy 10.0.0.1:9999
 ./nockminer --pubkey 0x123... --gpu 0-2 --name "Rig1" --region eu
+./nockminer --pubkey 0x123... --gpu 0,1,2 --ts 1,2,3,4,5
+./nockminer --pubkey 0x123... --gpu 0,1,2 --ts 0-27
+
